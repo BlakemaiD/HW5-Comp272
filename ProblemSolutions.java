@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Blake / 002
  *
  *   This java file contains the problem solutions of isSubSet, findKthLargest,
  *   and sort2Arrays methods. You should utilize the Java Collection Framework for
@@ -32,9 +32,18 @@ class ProblemSolutions {
 
     public boolean isSubset(int list1[], int list2[]) {
 
-        // ADD YOU CODE HERE -- DON'T FORGET TO ADD YOR NAME AT TOP OF FILE
+        //create a hash table
+        Hashtable<Integer, Integer> table = new Hashtable<>();
+        for (int i = 0; i < list1.length; i++) {
+            table.put(list1[i], list1[i]);
+        }
 
-        return false;
+        for (int k = 0; k < list2.length; k++) {
+            if (!table.contains(list2[k])) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
@@ -53,9 +62,17 @@ class ProblemSolutions {
 
     public int findKthLargest(int[] array, int k) {
 
-        // ADD YOUR CODE HERE
-
-        return 0;
+        //idea is to turn the array into a max heap, then pulling the kth term form the top
+        // create a priority queue
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        for (int i = 0; i<array.length; i++){
+            maxHeap.add(array[i]);
+        }
+        int kth = 0;
+        for (int i = 0; i < k; i++) { //will make the kth largest one be the last
+            kth = maxHeap.poll();
+        }
+        return kth;
     }
 
 
@@ -74,9 +91,20 @@ class ProblemSolutions {
 
     public int[] sort2Arrays(int[] array1, int[] array2) {
 
-        // ADD YOU CODE HERE
+        //create a combined array by making an array with the length
+        int[] newArray = new int[array1.length +array2.length];
 
-        return null;
+        //add the previous arrays to the new array
+        for (int i = 0; i < array1.length; i++) {
+            newArray[i] = array1[i];
+        }
+
+        for (int k = 0; k < array2.length; k++) {
+            newArray[array1.length + k] = array2[k];
+        }
+
+        Arrays.sort(newArray);
+        return newArray;
     }
 
 }
