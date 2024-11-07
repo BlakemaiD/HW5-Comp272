@@ -246,13 +246,40 @@ public class CuckooHash<K, V> {
 
  	public void put(K key, V value) {
 
-		// ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME AT TOP OF FILE.
-		// Also make sure you read this method's prologue above, it should help
-		// you. Especially the two HINTS in the prologue.
 
-		return;
-	}
+        // Also make sure you read this method's prologue above, it should help
+        // you. Especially the two HINTS in the prologue.
 
+        int pos1 = hash1(key);
+        int pos2 = hash2(key);
+
+        //checks if in table pos1 ad pos2
+        if (table[pos1] != null && table[pos1].bucKey.equals(key) && table[pos1].value.equals(value)) {
+            return;
+        }
+
+        if (table[pos2] != null && table[pos2].bucKey.equals(key) && table[pos2].value.equals(value)) {
+            return;  // No change
+        }
+
+        if (table[pos1] == null) { //if first position is open then insert
+            table[pos1] = new Bucket<K, V>(key, value);
+            return;
+        }
+
+        Bucket<K, V> curr = table[pos1];
+        table[pos1] = new Bucket<K, V>(key, value);
+
+        // Continue evictions as long as there are collisions and we haven't exceeded CAPACITY
+        for (int i = 0; table[pos1] != null && i < CAPACITY; i++) {
+            Bucket<K, V> prev = curr;
+
+            // Swap the current key-value
+            curr = table[pos1];
+            table[pos1] = prev;
+
+        }
+    }
 
 	/**
 	 * Method get
